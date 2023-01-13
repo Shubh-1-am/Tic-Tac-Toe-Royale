@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class ComputerVsPlayerTicTacToe implements TicTacToeGame {
+public class BasicAITicTacToe implements TicTacToeGame {
 
     private int[] find_winning_move(char[][] board, char player) {
         ArrayList<int[]> winningMoves = new ArrayList<int[]>();
@@ -172,10 +172,7 @@ public class ComputerVsPlayerTicTacToe implements TicTacToeGame {
 
     }
 
-    public static void main(String[] args) {
-        ComputerVsPlayerTicTacToe game = new ComputerVsPlayerTicTacToe();
-        game.play();
-    }
+
 
 
 
