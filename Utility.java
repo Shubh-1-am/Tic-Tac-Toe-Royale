@@ -1,4 +1,6 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,43 +9,75 @@ public class Utility {
     public static char[][] new_board() {
         char[][] board = new char[3][3];
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = ' ';
-            }
+            Arrays.fill(board[i], ' ');
         }
         return board;
     }
-    public static void render(char[][] board){
+    public static void render(char[][] board) {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_GREEN = "\u001B[32m";
 
         System.out.println("   0   1   2");
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             System.out.print(i + " ");
-            for (int j = 0; j < 3; j++){
-                if (board[i][j] == 'X'){
-                    System.out.print(" "+ANSI_BLUE + board[i][j] + ANSI_RESET+" ");
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == 'X') {
+                    System.out.print(" " + ANSI_BLUE + board[i][j] + ANSI_RESET + " ");
                 }
-                else if (board[i][j] == 'O'){
-                    System.out.print(" "+ANSI_GREEN + board[i][j] + ANSI_RESET+" ");
+                else if (board[i][j] == 'O') {
+                    System.out.print(" " + ANSI_GREEN + board[i][j] + ANSI_RESET + " ");
                 }
-                else{
+                else {
                     System.out.print("   ");
                 }
-                if (j != 2){
+                if (j != 2) {
                     System.out.print("|");
                 }
             }
             System.out.println();
-            if (i != 2){
+            if (i != 2) {
                 System.out.println("  ---+---+---");
             }
         }
     }
-    public static int[] get_move(){
-        Scanner input = new Scanner(System.in);
+
+    public static void render(char[][] board, PrintWriter writer) {
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_BLUE = "\u001B[34m";
+        final String ANSI_GREEN = "\u001B[32m";
+        try {
+            writer.println("  0  1  2");
+            writer.println();
+            for (int i = 0; i < 3; i++) {
+                writer.print(i + " ");
+                for (int j = 0; j < 3; j++) {
+                    if (board[i][j] == 'X') {
+                        writer.print(" " + ANSI_BLUE + board[i][j] + ANSI_RESET + " ");
+                    } else if (board[i][j] == 'O') {
+                        writer.print(" " + ANSI_GREEN + board[i][j] + ANSI_RESET + " ");
+                    } else {
+                        writer.print("   ");
+                    }
+                    if (j != 2) {
+                        writer.print("|");
+                    }
+                }
+                writer.println();
+                if (i != 2) {
+                    writer.println("  ---+---+---");
+                    writer.println();
+                }
+                writer.flush();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static int[] get_move() {
+        Scanner input = new Scanner(System. in );
         int[] move = new int[2];
         System.out.print("Enter your move (row, column): ");
         move[0] = input.nextInt();
@@ -51,14 +85,14 @@ public class Utility {
         return move;
     }
 
-    public static boolean is_valid_move(char[][] board, int[] move){
-        if (move[0] < 0 || move[0] > 2 || move[1] < 0 || move[1] > 2){
+    public static boolean is_valid_move(char[][] board, int[] move) {
+        if (move[0] < 0 || move[0] > 2 || move[1] < 0 || move[1] > 2) {
             return false;
         }
-        else if (board[move[0]][move[1]] != ' '){
+        else if (board[move[0]][move[1]] != ' ') {
             return false;
         }
-        else{
+        else {
             return true;
         }
     }
@@ -97,7 +131,7 @@ public class Utility {
             return board[0][2];
         }
 
-        if (is_draw(board)){
+        if (is_draw(board)) {
             return 'D';
         }
 
@@ -110,7 +144,7 @@ public class Utility {
         final String ANSI_GREEN = "\u001B[32m";
         final String ANSI_YELLOW = "\u001B[33m";
         if (winner == 'X') {
-            System.out.println(ANSI_BLUE + playerName +"(X) won " + "\uD83D\uDC7E" + ANSI_RESET);
+            System.out.println(ANSI_BLUE + playerName + "(X) won " + "\uD83D\uDC7E" + ANSI_RESET);
         } else if (winner == 'O') {
             System.out.println(ANSI_GREEN + playerName + "(O) won " + "\uD83D\uDC9A" + ANSI_RESET);
         } else if (winner == 'D') {
@@ -118,13 +152,16 @@ public class Utility {
         }
     }
 
-    public static List<int[]> get_legal_moves(char[][] board) {
-        List<int[]> legalMoves = new ArrayList<int[]>();
+    public static List < int[] > get_legal_moves(char[][] board) {
+        List < int[] > legalMoves = new ArrayList < int[] > ();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == ' ') {
-                    int[] move = {i, j};
+                    int[] move = {
+                            i,
+                            j
+                    };
                     legalMoves.add(move);
                 }
             }
